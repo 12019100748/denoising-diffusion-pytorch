@@ -253,7 +253,7 @@ class Unet(nn.Module):
         self,
         dim,
         num_classes,
-        cond_drop_prob = 0.5,
+        cond_drop_prob = 0.5,####该参数的作用？
         init_dim = None,
         out_dim = None,
         dim_mults=(1, 2, 4, 8),
@@ -277,10 +277,10 @@ class Unet(nn.Module):
         self.channels = channels
         input_channels = channels
 
-        init_dim = default(init_dim, dim)
+        init_dim = default(init_dim, dim)#将dim的值传递给init_dim，其中dim是调用unet函数传参传过来的。
         self.init_conv = nn.Conv2d(input_channels, init_dim, 7, padding = 3)
 
-        dims = [init_dim, *map(lambda m: dim * m, dim_mults)]
+        dims = [init_dim, *map(lambda m: dim * m, dim_mults)]#下采样通道数[传进来通道数，传进来通道数×dim_mults]
         in_out = list(zip(dims[:-1], dims[1:]))
 
         block_klass = partial(ResnetBlock, groups = resnet_block_groups)
